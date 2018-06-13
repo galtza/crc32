@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+.projects/x64/
+*.swp
