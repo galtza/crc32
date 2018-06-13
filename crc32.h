@@ -2,22 +2,16 @@
 
 #include <cstdint>
 
-/*
-    @brief Contains compile-time and run-time implementation of 
-           CRC-32 (ISO 3309) based on a pre-calculated table.
-*/
-
 namespace crc32 {
 
-    template<unsigned LEN, unsigned INDEX>
-    struct helper;
+    using namespace std;
 
-    template<unsigned LEN>
-    constexpr auto compile_time(const char(&_str)[LEN]) -> std::uint32_t {
-        return helper<LEN, 0>::exec(_str, 0xffffffff, 0xffffffff);
-    }
-
-    constexpr std::uint32_t table[256] = {
+    /*
+       ====================
+       Pre-calculated table
+       ====================
+    */
+    constexpr uint32_t table[256] = {
         0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 
         0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91, 0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d, 0x6ddde4eb, 
         0xf4d4b551, 0x83d385c7, 0x136c9856, 0x646ba8c0, 0xfd62f97a, 0x8a65c9ec, 0x14015c4f, 0x63066cd9, 0xfa0f3d63, 0x8d080df5, 0x3b6e20c8, 
@@ -44,36 +38,61 @@ namespace crc32 {
         0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d,
     };
 
+
+    /*
+       ================
+       Run-time version
+       ================
+    */
+
+    inline auto run_time(char const* _str, uint32_t _current = 0xffffffff) -> uint32_t {
+        while (*_str != 0) {
+            _current = table[static_cast<uint8_t>(_current) ^ static_cast<uint8_t>(*_str++)] ^ (_current >> 8);
+        }
+        return _current ^ 0xFFffFFff;
+    }
+
+    /*
+       ====================
+       Compile time version
+       ====================
+    */
+
+    // Helper class
+    template<unsigned LEN, unsigned INDEX>
+    struct helper;
+
+    // Compile-time interface
+    template<unsigned LEN>
+    constexpr auto compile_time(const char(&_str)[LEN]) -> uint32_t {
+        return helper<LEN, 0>::exec(_str, 0xffffffff, 0xffffffff);
+    }
+
+    // Empty string case
     template<>
     struct helper<1, 0> {
-        static constexpr auto exec(const char(&)[1], std::uint32_t, std::uint32_t) -> std::uint32_t {
+        static constexpr auto exec(const char(&)[1], uint32_t, uint32_t) -> uint32_t {
             return 0;
         }
-    }; // Empty string case
+    };
 
+    // General case
     template<unsigned LEN, unsigned INDEX>
     struct helper {
-        static constexpr auto exec(const char(&_str)[LEN], std::uint32_t _cur, std::uint32_t) -> std::uint32_t {
+        static constexpr auto exec(const char(&_str)[LEN], uint32_t _cur, uint32_t) -> uint32_t {
             return helper<LEN, INDEX + 1>::exec(
                 _str,                                                          // 1. String itself
                 table[static_cast<uint8_t>(_cur) ^ _str[INDEX]] ^ (_cur >> 8), // 2. Add '_str[INDEX]' to the current crc value
                 _cur                                                           // 3. Pass through the unmodified current crc32 (special case of "end of string")
             );
         }
-    }; // General case
+    };
 
     template<unsigned LEN>
     struct helper<LEN, LEN> {
-        static constexpr auto exec(const char(&)[LEN], std::uint32_t, std::uint32_t _prev) -> std::uint32_t {
+        static constexpr auto exec(const char(&)[LEN], uint32_t, uint32_t _prev) -> uint32_t {
             return _prev ^ 0xFFffFFff; // _prev is the last valid calculation (_cur just included '\0' which we don't want)
         }
     }; // End of string case
-
-    inline auto run_time(char const* _str, std::uint32_t _current = 0xffffffff) -> std::uint32_t {
-        while (*_str != 0) {
-            _current = table[static_cast<uint8_t>(_current) ^ static_cast<uint8_t>(*_str++)] ^ (_current >> 8);
-        }
-        return _current ^ 0xFFffFFff;
-    }
 
 }
