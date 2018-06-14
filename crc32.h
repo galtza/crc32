@@ -1,7 +1,7 @@
 /*
   MIT License
 
-  Copyright (c) 2018 Raúl Ramos
+  Copyright (c) 2018 RaÃºl Ramos
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -91,9 +91,9 @@ namespace crc32 {
     struct helper {
         constexpr auto operator()(const char(&_str)[LEN], uint32_t _cur, uint32_t) -> uint32_t {
             return helper<LEN, INDEX + 1>()(
-                _str,                                                          // 1. String itself
-                table[static_cast<uint8_t>(_cur) ^ _str[INDEX]] ^ (_cur >> 8), // 2. Add '_str[INDEX]' to the current crc value
-                _cur                                                           // 3. Pass through the unmodified current crc32 (special case of "end of string")
+                _str,                                                                                // 1. String itself
+                table[static_cast<uint8_t>(_cur) ^ static_cast<uint8_t>(_str[INDEX])] ^ (_cur >> 8), // 2. Add '_str[INDEX]' to the current crc value
+                _cur                                                                                 // 3. Pass through the unmodified current crc32 (special case of "end of string")
             );
         }
     };
