@@ -81,7 +81,7 @@ namespace crc32 {
     // Empty string case
     template<>
     struct helper<1, 0> {
-        constexpr auto operator()(const char(&)[1], uint32_t, uint32_t) -> uint32_t {
+        constexpr auto operator()(const char(&)[1], uint32_t, uint32_t) const -> uint32_t {
             return 0;
         }
     };
@@ -89,7 +89,7 @@ namespace crc32 {
     // General case
     template<unsigned LEN, unsigned INDEX>
     struct helper {
-        constexpr auto operator()(const char(&_str)[LEN], uint32_t _cur, uint32_t) -> uint32_t {
+        constexpr auto operator()(const char(&_str)[LEN], uint32_t _cur, uint32_t) const -> uint32_t {
             return helper<LEN, INDEX + 1>()(
                 _str,                                                                                // 1. String itself
                 table[static_cast<uint8_t>(_cur) ^ static_cast<uint8_t>(_str[INDEX])] ^ (_cur >> 8), // 2. Add '_str[INDEX]' to the current crc value
@@ -101,7 +101,7 @@ namespace crc32 {
     // End of string case
     template<unsigned LEN>
     struct helper<LEN, LEN> {
-        constexpr auto operator()(const char(&)[LEN], uint32_t, uint32_t _prev) -> uint32_t {
+        constexpr auto operator()(const char(&)[LEN], uint32_t, uint32_t _prev) const -> uint32_t {
             return _prev ^ 0xFFffFFff; // _prev is the last valid calculation (_cur just included '\0' which we don't want)
         }
     };

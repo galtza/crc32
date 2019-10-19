@@ -32,3 +32,4 @@
 *.app
 .projects/x64/
 *.swp
+.projects/.vs
