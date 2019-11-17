@@ -9,10 +9,11 @@ Usage:
 
 int main () {
     ...
-    constexpr auto text_hash_ct = crc32::compile_time("Hello world");
+    constexpr auto text_hash_ct = crc32::from_literal("Hello world");
     ...
-    const auto text_hash_rt = crc32::run_time("Hello world");
+    const auto text_hash_rt = crc32::from_string("Hello world");
     ...
+    std::cout << (uint32_t)text_hash_ct << std::endl;
     return 0;
 }
 ```
