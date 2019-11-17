@@ -5,17 +5,19 @@
 
 int main () {
 
+    using namespace std;
+
     // Simple test
-    constexpr auto short_ct = crc32::compile_time("Hello world");
-    const     auto short_rt = crc32::run_time("Hello world");
+    constexpr auto short_ct = crc32::from_literal("Hello world");
+    const     auto short_rt = crc32::from_string("Hello world");
     assert(short_ct == short_rt);
 
-    std::cout << std::hex << short_ct << "\n";
-    std::cout << std::hex << short_rt << "\n";
-    std::cout << std::endl;
+    cout << hex << (uint32_t)short_ct << "\n";
+    cout << hex << (uint32_t)short_rt << "\n";
+    cout << endl;
 
     // Long test
-    constexpr auto long_ct = crc32::compile_time(
+    constexpr auto long_ct = crc32::from_literal(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
         "Pellentesque iaculis neque sem, eget congue justo euismod"
         " nec. Mauris ornare, sem sit amet ullamcorper vestibulum,"
@@ -26,7 +28,7 @@ int main () {
         "tortor. Duis ut convallis purus. Nam mattis felis eros, quis "
         "fermentum enim vulputate in."
     );
-    const auto long_rt = crc32::run_time(
+    const auto long_rt = crc32::from_string(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
         "Pellentesque iaculis neque sem, eget congue justo euismod"
         " nec. Mauris ornare, sem sit amet ullamcorper vestibulum,"
@@ -38,7 +40,7 @@ int main () {
         "fermentum enim vulputate in."
     );
     assert(long_ct == long_rt);
-    std::cout << std::hex << long_ct << "\n";
-    std::cout << std::hex << long_rt << "\n";
-    std::cout << std::endl;
+    cout << hex << (uint32_t)long_ct << "\n";
+    cout << hex << (uint32_t)long_rt << "\n";
+    cout << endl;
 }
