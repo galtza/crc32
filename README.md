@@ -1,6 +1,6 @@
 # Compile-time CRC-32
 
-Usage:
+#### Usage:
 
 ```c++
 ...
@@ -16,4 +16,18 @@ int main () {
     std::cout << (uint32_t)text_hash_ct << std::endl;
     return 0;
 }
+```
+
+#### Compile and execute for *nix:
+
+```bash
+$ premake5 gmake
+$ make -C .build
+$ .out/crc32/x64/Debug/crc32 
+```
+
+#### Generate VS solution for windows:
+
+```windows
+$ premake5 vs2017
 ```
