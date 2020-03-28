@@ -23,8 +23,8 @@
 --]]
 
 workspace "crc32"
-	language "C++"
-	cppdialect "C++11"
+    language "C++"
+    cppdialect "C++11"
 
     configurations { "Debug", "Release" }
     platforms      { "x64", }
