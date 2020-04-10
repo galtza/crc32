@@ -25,6 +25,10 @@
 
 #include <cstdint>
 
+/*
+    -- Version 1.0 --
+*/
+
 namespace crc32 {
 
     using namespace std;
