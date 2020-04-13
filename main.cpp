@@ -8,8 +8,8 @@ int main () {
     using namespace std;
 
     // Simple test
-    constexpr auto short_ct = crc32::from_literal("Hello world");
-    const     auto short_rt = crc32::from_string("Hello world");
+    constexpr auto short_ct = qcstudio::crc32::from_literal("Hello world");
+    const     auto short_rt = qcstudio::crc32::from_string("Hello world");
     assert(short_ct == short_rt);
 
     cout << hex << (uint32_t)short_ct << "\n";
@@ -17,7 +17,7 @@ int main () {
     cout << endl;
 
     // Long test
-    constexpr auto long_ct = crc32::from_literal(
+    constexpr auto long_ct = qcstudio::crc32::from_literal(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
         "Pellentesque iaculis neque sem, eget congue justo euismod"
         " nec. Mauris ornare, sem sit amet ullamcorper vestibulum,"
@@ -28,7 +28,7 @@ int main () {
         "tortor. Duis ut convallis purus. Nam mattis felis eros, quis "
         "fermentum enim vulputate in."
     );
-    const auto long_rt = crc32::from_string(
+    const auto long_rt = qcstudio::crc32::from_string(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
         "Pellentesque iaculis neque sem, eget congue justo euismod"
         " nec. Mauris ornare, sem sit amet ullamcorper vestibulum,"
