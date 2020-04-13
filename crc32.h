@@ -29,6 +29,7 @@
     -- Version 1.0 --
 */
 
+namespace qcstudio {
 namespace crc32 {
 
     using namespace std;
@@ -188,4 +189,5 @@ namespace crc32 {
     static_assert(checksum_from_literal("A") == 0xD3D99E8B,           "crc32 unit test ('A') failed!");
     static_assert(checksum_from_literal("Hello world") == 0x8BD69E52, "crc32 unit test ('Hello world') failed!");
 
-}
+} // namespace crc32
+} // namespace qcstudio
