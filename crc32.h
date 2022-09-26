@@ -44,8 +44,8 @@ namespace crc32 {
         uint32_t value;
         constexpr result_t();
         constexpr result_t(uint32_t);
-        explicit operator uint32_t() const;
-        auto operator ==(const result_t&) const -> bool;
+        explicit constexpr operator uint32_t() const;
+        constexpr auto operator ==(const result_t&) const -> bool;
     };
 
     static const auto default_v = result_t();
@@ -175,10 +175,10 @@ namespace crc32 {
 
     inline constexpr result_t::result_t() : value(details::INITIAL_VALUE) { }
     inline constexpr result_t::result_t(uint32_t _val) : value(_val) { }
-    inline result_t::operator uint32_t() const { 
+    inline constexpr result_t::operator uint32_t() const { 
         return value ^ details::XOR_VALUE; 
     }
-    inline auto result_t::operator ==(const result_t& _rhs) const -> bool {
+    inline constexpr auto result_t::operator ==(const result_t& _rhs) const -> bool {
         return value == _rhs.value;
     }
 
