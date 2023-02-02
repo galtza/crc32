@@ -63,10 +63,6 @@ namespace qcstudio::crc32 {
     template<unsigned LEN> constexpr auto from_literal(const char (&_str)[LEN], _crc_32_poly) -> result_t;    // Uses crc-32 polynomial explicitly
     template<unsigned LEN> constexpr auto from_literal(const char (&_str)[LEN], _crc_32_c_poly) -> result_t;  // Uses crc-32-c polynomial explicitly
 
-    template<unsigned LEN> constexpr auto checksum_from_literal(const char (&_str)[LEN]) -> uint32_t;                  // Uses crc-32 polynomial by default
-    template<unsigned LEN> constexpr auto checksum_from_literal(const char (&_str)[LEN], _crc_32_poly) -> uint32_t;    // Uses crc-32 polynomial explicitly
-    template<unsigned LEN> constexpr auto checksum_from_literal(const char (&_str)[LEN], _crc_32_c_poly) -> uint32_t;  // Uses crc-32-c polynomial explicitly
-
     // run-time versions
 
     auto from_string(char const* _str, result_t _curr = result_t()) -> result_t;
